@@ -16,6 +16,8 @@ interface FormState {
   note: string
 }
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 const EMPTY_FORM: FormState = {
   date: today(),
   process_name: '',
@@ -34,7 +36,7 @@ export default function InputPage() {
 
   // マスタをAPIから取得（マスタ管理画面の変更が即反映される）
   useEffect(() => {
-    fetch('/api/masters')
+    fetch(BASE + '/api/masters')
       .then(r => r.json())
       .then(d => {
         setProcesses(d.processes ?? [])
@@ -56,7 +58,7 @@ export default function InputPage() {
     setErrorMsg('')
 
     try {
-      const res = await fetch('/api/records', {
+      const res = await fetch(BASE + '/api/records', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, quantity: Number(form.quantity) }),

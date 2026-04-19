@@ -5,6 +5,8 @@ import type { InspectionRecord, ItemResult, ItemStatus } from '@/lib/records-db'
 import type { InspectionTarget, Frequency } from '@/lib/masters-db'
 import type { TargetStatus } from '@/lib/records-db'
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 const FREQUENCY_LABELS: Record<Frequency, string> = {
   daily: '日次', weekly: '週次', monthly: '月次',
 }
@@ -45,12 +47,12 @@ export default function AdminPage() {
   const [inspectors, setInspectors] = useState<string[]>([])
 
   useEffect(() => {
-    fetch('/api/masters?all=true').then(r => r.json()).then(setTargets)
+    fetch(BASE + '/api/masters?all=true').then(r => r.json()).then(setTargets)
   }, [])
 
   // 今日の実施状況
   useEffect(() => {
-    fetch(`/api/status?date=${today()}`).then(r => r.json()).then(setStatuses)
+    fetch(`${BASE}/api/status?date=${today()}`).then(r => r.json()).then(setStatuses)
   }, [])
 
   const fetchRecords = useCallback(async () => {
@@ -60,7 +62,7 @@ export default function AdminPage() {
     if (dateTo)   p.set('dateTo',   dateTo)
     if (targetId) p.set('target_id', targetId)
     if (ngOnly)   p.set('ng_only',  'true')
-    const res = await fetch(`/api/records?${p}`)
+    const res = await fetch(`${BASE}/api/records?${p}`)
     const data: InspectionRecord[] = await res.json()
     setRecords(data)
     // 担当者リストをレコードから収集
@@ -76,7 +78,7 @@ export default function AdminPage() {
     if (dateTo)   p.set('dateTo',   dateTo)
     if (targetId) p.set('target_id', targetId)
     if (ngOnly)   p.set('ng_only',  'true')
-    return `/api/export?${p}`
+    return `${BASE}/api/export?${p}`
   }
 
   function toggleExpand(id: number) {
@@ -110,7 +112,7 @@ export default function AdminPage() {
       status: editResults[res.item_id]?.status ?? res.status,
       note:   editResults[res.item_id]?.note   ?? res.note,
     }))
-    await fetch(`/api/records/${r.id}`, {
+    await fetch(`${BASE}/api/records/${r.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -124,7 +126,7 @@ export default function AdminPage() {
     setSaving(false)
     // ステータスも再取得（日付が変わった場合に反映）
     fetchRecords()
-    fetch(`/api/status?date=${today()}`).then(r => r.json()).then(setStatuses)
+    fetch(`${BASE}/api/status?date=${today()}`).then(r => r.json()).then(setStatuses)
   }
 
   // ---------- サマリー ----------

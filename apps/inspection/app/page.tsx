@@ -7,6 +7,8 @@ import type { ItemStatus, ItemResult } from '@/lib/records-db'
 // ▼ 担当者リストは父親の会社ヒアリング後に修正
 const INSPECTOR_OPTIONS = ['田中', '鈴木', '佐藤', '山田', '伊藤']
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 type StatusMap = Record<number, { status: ItemStatus; note: string }>
 
 function today(): string {
@@ -38,7 +40,7 @@ export default function InspectPage() {
 
   // マスタ読み込み
   useEffect(() => {
-    fetch('/api/masters').then(r => r.json()).then(setTargets)
+    fetch(BASE + '/api/masters').then(r => r.json()).then(setTargets)
   }, [])
 
   // 点検対象が変わったら項目をリセット
@@ -107,7 +109,7 @@ export default function InspectPage() {
         const resized = await Promise.all(photos.map(f => resizeImage(f)))
         const fd = new FormData()
         resized.forEach(p => fd.append('photos', p))
-        const upRes = await fetch('/api/upload', { method: 'POST', body: fd })
+        const upRes = await fetch(BASE + '/api/upload', { method: 'POST', body: fd })
         const upData = await upRes.json()
         photoPaths = upData.paths ?? []
       }
@@ -121,7 +123,7 @@ export default function InspectPage() {
         note: statusMap[item.id]?.note ?? '',
       }))
 
-      const res = await fetch('/api/records', {
+      const res = await fetch(BASE + '/api/records', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

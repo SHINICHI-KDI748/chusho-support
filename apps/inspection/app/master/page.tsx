@@ -9,6 +9,8 @@ const FREQUENCY_OPTIONS: { value: Frequency; label: string }[] = [
   { value: 'monthly', label: '月次（毎月）' },
 ]
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 export default function MasterPage() {
   const [targets, setTargets]           = useState<InspectionTarget[]>([])
   const [expanded, setExpanded]         = useState<Set<number>>(new Set())
@@ -21,7 +23,7 @@ export default function MasterPage() {
   const [msg, setMsg]       = useState('')
 
   async function load() {
-    const res = await fetch('/api/masters?all=true')
+    const res = await fetch(BASE + '/api/masters?all=true')
     setTargets(await res.json())
   }
 
@@ -43,7 +45,7 @@ export default function MasterPage() {
   async function addTarget() {
     if (!newTargetName.trim()) return
     setSaving(true)
-    await fetch('/api/masters', {
+    await fetch(BASE + '/api/masters', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newTargetName.trim(), frequency: newTargetFreq }),
@@ -55,7 +57,7 @@ export default function MasterPage() {
   }
 
   async function updateFrequency(target: InspectionTarget, frequency: Frequency) {
-    await fetch(`/api/masters/${target.id}`, {
+    await fetch(`${BASE}/api/masters/${target.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ frequency }),
@@ -68,7 +70,7 @@ export default function MasterPage() {
     const label = newItemLabels[targetId]?.trim()
     if (!label) return
     setSaving(true)
-    await fetch(`/api/masters/${targetId}`, {
+    await fetch(`${BASE}/api/masters/${targetId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ label }),
@@ -85,7 +87,7 @@ export default function MasterPage() {
     const updatedItems = target.items.map(i =>
       i.id === itemId ? { ...i, label } : i
     )
-    await fetch(`/api/masters/${target.id}`, {
+    await fetch(`${BASE}/api/masters/${target.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: updatedItems }),
@@ -96,7 +98,7 @@ export default function MasterPage() {
   }
 
   async function toggleTargetActive(target: InspectionTarget) {
-    await fetch(`/api/masters/${target.id}`, {
+    await fetch(`${BASE}/api/masters/${target.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ active: !target.active }),
@@ -108,7 +110,7 @@ export default function MasterPage() {
     const updatedItems = target.items.map(i =>
       i.id === item.id ? { ...i, active: !i.active } : i
     )
-    await fetch(`/api/masters/${target.id}`, {
+    await fetch(`${BASE}/api/masters/${target.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: updatedItems }),
@@ -127,7 +129,7 @@ export default function MasterPage() {
       if (i.id === swap.id) return { ...i, order: item.order }
       return i
     })
-    await fetch(`/api/masters/${target.id}`, {
+    await fetch(`${BASE}/api/masters/${target.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ items: updatedItems }),

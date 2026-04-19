@@ -22,6 +22,8 @@ interface EditForm {
   note: string
 }
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 function today(): string {
   return new Date().toISOString().slice(0, 10)
 }
@@ -58,7 +60,7 @@ export default function AdminPage() {
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null)
 
   useEffect(() => {
-    fetch('/api/masters').then(r => r.json()).then(d => {
+    fetch(BASE + '/api/masters').then(r => r.json()).then(d => {
       setProcesses(d.processes ?? [])
       setWorkers(d.workers ?? [])
     })
@@ -70,7 +72,7 @@ export default function AdminPage() {
     if (dateFrom) params.set('dateFrom', dateFrom)
     if (dateTo)   params.set('dateTo',   dateTo)
     if (keyword)  params.set('keyword',  keyword)
-    const res = await fetch(`/api/records?${params}`)
+    const res = await fetch(`${BASE}/api/records?${params}`)
     setRecords(await res.json())
     setLoading(false)
   }, [dateFrom, dateTo, keyword])
@@ -82,7 +84,7 @@ export default function AdminPage() {
     if (dateFrom) params.set('dateFrom', dateFrom)
     if (dateTo)   params.set('dateTo',   dateTo)
     if (keyword)  params.set('keyword',  keyword)
-    return `/api/export?${params}`
+    return `${BASE}/api/export?${params}`
   }
 
   // ---------- 編集操作 ----------
@@ -105,7 +107,7 @@ export default function AdminPage() {
   async function saveEdit(id: number) {
     if (!editForm) return
     setSaving(true)
-    await fetch(`/api/records/${id}`, {
+    await fetch(`${BASE}/api/records/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...editForm, quantity: Number(editForm.quantity) }),
@@ -117,7 +119,7 @@ export default function AdminPage() {
   }
 
   async function deleteRecord(id: number) {
-    await fetch(`/api/records/${id}`, { method: 'DELETE' })
+    await fetch(`${BASE}/api/records/${id}`, { method: 'DELETE' })
     setDeleteConfirmId(null)
     fetchRecords()
   }
