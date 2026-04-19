@@ -143,6 +143,9 @@ Vercel ダッシュボード → gyomu-portal → Settings → Environment Varia
 | `INTERNAL_APP_DASHBOARD_URL` | `https://gyomu-dashboard.vercel.app` | ダッシュボードURL |
 | `INTERNAL_APP_CASE_URL` | `https://gyomu-case.vercel.app` | 事例管理アプリURL |
 
+> **重要**: `INTERNAL_APP_*_URL` にはドメインだけを入れる（末尾に `/apps/work` などは不要）。  
+> ポータルのリバースプロキシが自動で `/apps/work/:path*` を付け足します。
+
 `NEXTAUTH_SECRET` の生成方法：
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
@@ -208,7 +211,8 @@ DATABASE_URL="postgresql://..." npm run db:seed   # ユーザー投入
 | `Invalid region selector: "nrt1"` | 古いリージョンコード | `vercel.json` の regions を `"hnd1"` に変更 |
 | ログインできない（Vercel） | DB が空 | `DATABASE_URL="..." npx tsx prisma/seed.ts` を実行 |
 | ログインできない（ローカル） | `.env` の URL が Vercel URL になっている | `.env` の `NEXTAUTH_URL` を `http://localhost:3010` に戻す |
-| アプリが開かない | ポータルの rewrites が localhost を指している | `INTERNAL_APP_*_URL` 環境変数を設定 |
+| アプリが開かない | `INTERNAL_APP_*_URL` が未設定でlocalhost向きになっている | portalのVercel環境変数に `INTERNAL_APP_*_URL` を設定して再デプロイ |
+| サブアプリを直接開くと404 | basePath設定のため `/` にはページがない | 正しいURL: `gyomu-work.vercel.app/apps/work` など（末尾に basePath を付ける） |
 | ダッシュボードが空 | `APP_WORK_URL` / `APP_INSPECTION_URL` が未設定 | ダッシュボードの Vercel 環境変数に追加して再デプロイ |
 | `prisma generate failed` | `scripts/prepare-vercel.sh` のエラー | スクリプト内のコマンドを確認 |
 | GitHub push できない | node_modules が含まれている | `.gitignore` 確認 → `git rm -r --cached node_modules` |
