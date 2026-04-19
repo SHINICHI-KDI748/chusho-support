@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import type { PocFull } from "@/lib/db";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 // Minimal markdown → HTML (covers what generateCaseSheet outputs)
 function renderMarkdown(md: string): string {
   const lines = md.split("\n");
@@ -74,8 +76,8 @@ export default function CaseSheetPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`/api/poc/${id}`).then((r) => r.json()),
-      fetch(`/api/poc/${id}/export?format=markdown`).then((r) => r.text()),
+      fetch(`${BASE}/api/poc/${id}`).then((r) => r.json()),
+      fetch(`${BASE}/api/poc/${id}/export?format=markdown`).then((r) => r.text()),
     ]).then(([pocData, md]) => {
       setPoc(pocData);
       setMarkdown(md);
@@ -100,7 +102,7 @@ export default function CaseSheetPage() {
   };
 
   const copyPlainText = async () => {
-    const res = await fetch(`/api/poc/${id}/export?format=plain`);
+    const res = await fetch(`${BASE}/api/poc/${id}/export?format=plain`);
     const text = await res.text();
     await navigator.clipboard.writeText(text);
     setCopied(true);

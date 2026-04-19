@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 type SalesCopies = {
   referral: string;
   firstContact: string;
@@ -70,13 +72,13 @@ export default function SalesCopyPage() {
   const [copiedAll, setCopiedAll] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/poc/${id}/export?format=json`)
+    fetch(`${BASE}/api/poc/${id}/export?format=json`)
       .then((r) => r.json())
       .then((data: { caseSheet: string; salesCopies: SalesCopies }) => {
         setCopies(data.salesCopies);
         setLoading(false);
       });
-    fetch(`/api/poc/${id}`)
+    fetch(`${BASE}/api/poc/${id}`)
       .then((r) => r.json())
       .then((d) => setPocTitle(d.project?.title || ""));
   }, [id]);

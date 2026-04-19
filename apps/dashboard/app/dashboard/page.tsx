@@ -8,6 +8,8 @@ import {
 import type { DashboardSummary, AssigneeSummary, UnifiedEvent } from '@/lib/unified'
 import type { TargetStatus } from '@/lib/app2-reader'
 import type { DayTrend } from '@/app/api/trend/route'
+
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
 import type { ProcessSummaryResponse } from '@/app/api/process-summary/route'
 
 // ---------- 型定義 ----------
@@ -280,10 +282,10 @@ export default function DashboardPage() {
     setError('')
     try {
       const [sumRes, ngRes, trendRes, procRes] = await Promise.all([
-        fetch(`/api/dashboard?dateFrom=${from}&dateTo=${to}`),
-        fetch(`/api/unified?dateFrom=${from}&dateTo=${to}&type=inspection&ng_only=true`),
-        fetch(`/api/trend?days=30`),
-        fetch(`/api/process-summary?dateFrom=${from}&dateTo=${to}`),
+        fetch(`${BASE}/api/dashboard?dateFrom=${from}&dateTo=${to}`),
+        fetch(`${BASE}/api/unified?dateFrom=${from}&dateTo=${to}&type=inspection&ng_only=true`),
+        fetch(`${BASE}/api/trend?days=30`),
+        fetch(`${BASE}/api/process-summary?dateFrom=${from}&dateTo=${to}`),
       ])
       if (!sumRes.ok || !ngRes.ok) throw new Error('データ取得に失敗しました')
 
@@ -298,7 +300,7 @@ export default function DashboardPage() {
       setTrend(trendData)
       setProcessSummary(procData)
 
-      const checkRes = await fetch(`/api/unified?dateFrom=${from}&dateTo=${to}&type=work&needs_check=true`)
+      const checkRes = await fetch(`${BASE}/api/unified?dateFrom=${from}&dateTo=${to}&type=work&needs_check=true`)
       if (checkRes.ok) setCheckEvents(await checkRes.json())
     } catch (e) {
       setError(e instanceof Error ? e.message : '不明なエラー')

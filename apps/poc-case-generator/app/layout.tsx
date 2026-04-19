@@ -20,9 +20,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <span className="text-xs text-gray-500 ml-2">効果測定 → 事例化 → 営業転用</span>
               </div>
             </div>
-            <nav className="flex gap-4 text-sm">
+            <nav className="flex gap-4 text-sm items-center">
               <Link href="/" className="text-gray-600 hover:text-blue-600">PoC一覧</Link>
               <Link href="/poc/new" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">+ 新規PoC</Link>
+              {process.env.NEXT_PUBLIC_PORTAL_URL && (
+                <a href={process.env.NEXT_PUBLIC_PORTAL_URL}
+                  className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-bold hover:bg-gray-200">
+                  ← ポータル
+                </a>
+              )}
             </nav>
           </div>
         </header>

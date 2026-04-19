@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
 const RELATED_APPS = ["App1（作業実績）", "App2（点検）", "App3（ダッシュボード）", "その他"];
 const STATUSES = ["ヒアリング中", "PoC中", "事例化済み", "提案済み", "受注済み"];
 
@@ -39,7 +40,7 @@ export default function NewPocPage() {
     e.preventDefault();
     if (!form.title.trim()) { alert("PoC名を入力してください"); return; }
     setSaving(true);
-    const res = await fetch("/api/poc", {
+    const res = await fetch(BASE + "/api/poc", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, user_count: Number(form.user_count) || 0 }),

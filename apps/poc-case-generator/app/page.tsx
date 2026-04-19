@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import type { PocProject } from "@/lib/db";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 const STATUS_COLORS: Record<string, string> = {
   "ヒアリング中": "bg-gray-100 text-gray-700",
   "PoC中": "bg-yellow-100 text-yellow-800",
@@ -20,7 +22,7 @@ export default function PocListPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("/api/poc")
+    fetch(BASE + "/api/poc")
       .then((r) => r.json())
       .then((data) => { setProjects(data); setLoading(false); })
       .catch(() => setLoading(false));
@@ -38,7 +40,7 @@ export default function PocListPage() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("このPoCを削除しますか？")) return;
-    await fetch(`/api/poc/${id}`, { method: "DELETE" });
+    await fetch(`${BASE}/api/poc/${id}`, { method: "DELETE" });
     setProjects((prev) => prev.filter((p) => p.id !== id));
   };
 

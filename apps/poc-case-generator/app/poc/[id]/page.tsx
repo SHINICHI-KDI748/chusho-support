@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { PocFull } from "@/lib/db";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
 const RELATED_APPS = ["App1（作業実績）", "App2（点検）", "App3（ダッシュボード）", "その他"];
 const STATUSES = ["ヒアリング中", "PoC中", "事例化済み", "提案済み", "受注済み"];
 type Tab = "basic" | "metrics" | "comments";
@@ -40,7 +41,7 @@ export default function PocDetailPage() {
   });
 
   useEffect(() => {
-    fetch(`/api/poc/${id}`)
+    fetch(`${BASE}/api/poc/${id}`)
       .then((r) => r.json())
       .then((data: PocFull) => {
         const p = data.project;
@@ -83,7 +84,7 @@ export default function PocDetailPage() {
 
   const handleSave = async () => {
     setSaving(true);
-    await fetch(`/api/poc/${id}`, {
+    await fetch(`${BASE}/api/poc/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

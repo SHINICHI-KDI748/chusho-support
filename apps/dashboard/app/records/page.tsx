@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { UnifiedEvent } from '@/lib/unified'
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 // ---------- ユーティリティ ----------
 
 function todayString(): string {
@@ -64,7 +66,7 @@ export default function RecordsPage() {
         type: tab,
       })
       if (ngOnly) params.set('ng_only', 'true')
-      const res = await fetch(`/api/unified?${params}`)
+      const res = await fetch(`${BASE}/api/unified?${params}`)
       if (!res.ok) throw new Error('データ取得失敗')
       const data: UnifiedEvent[] = await res.json()
       setEvents(data)

@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 
 // ---------- 型定義 ----------
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 interface MeasurementData {
   before: {
     work_record_time_min: number | null
@@ -119,7 +121,7 @@ export default function PocEvaluationPage() {
   const [error, setError]     = useState('')
 
   useEffect(() => {
-    fetch('/api/poc-evaluation')
+    fetch(BASE + '/api/poc-evaluation')
       .then(r => r.json())
       .then((d: MeasurementData) => {
         setData({ ...emptyData, ...d, before: { ...emptyData.before, ...d.before }, after: { ...emptyData.after, ...d.after } })
@@ -139,7 +141,7 @@ export default function PocEvaluationPage() {
     setSaving(true)
     setError('')
     try {
-      const res = await fetch('/api/poc-evaluation', {
+      const res = await fetch(BASE + '/api/poc-evaluation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
