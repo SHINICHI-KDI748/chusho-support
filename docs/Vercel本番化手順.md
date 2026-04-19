@@ -70,7 +70,11 @@ npx vercel --prod
 
 デプロイ後、表示された URL をメモ（例: `https://gyomu-work.vercel.app`）
 
-**Vercel ダッシュボードで環境変数を追加（この2つは不要、追加変数なし）**
+**Vercel ダッシュボードで環境変数を追加**（`NEXT_PUBLIC_PORTAL_URL` のみ）：
+
+| Key | Value |
+|-----|-------|
+| `NEXT_PUBLIC_PORTAL_URL` | `https://gyomu-portal.vercel.app/home` |
 
 ---
 
@@ -82,6 +86,12 @@ npx vercel --prod
 ```
 
 デプロイ後 URL をメモ（例: `https://gyomu-inspection.vercel.app`）
+
+**Vercel ダッシュボードで環境変数を追加**：
+
+| Key | Value |
+|-----|-------|
+| `NEXT_PUBLIC_PORTAL_URL` | `https://gyomu-portal.vercel.app/home` |
 
 **注意**: このアプリはデータを JSON ファイルに書き込みます。  
 Vercel のファイルシステムは**読み取り専用**のため、本番では**データが保存されません**。  
@@ -104,6 +114,7 @@ npx vercel --prod
 |-----|-------|
 | `APP_WORK_URL` | 作業入力アプリの URL（例: `https://gyomu-work.vercel.app`） |
 | `APP_INSPECTION_URL` | 点検入力アプリの URL（例: `https://gyomu-inspection.vercel.app`） |
+| `NEXT_PUBLIC_PORTAL_URL` | ポータルの URL（例: `https://gyomu-portal.vercel.app/home`）→「← ポータル」ボタンの遷移先 |
 
 設定後、再デプロイが必要：
 ```bash
@@ -140,8 +151,12 @@ Vercel ダッシュボード → gyomu-portal → Settings → Environment Varia
 | `NEXTAUTH_URL` | `https://gyomu-portal.vercel.app`（デプロイ後に確定） | ポータルのURL |
 | `INTERNAL_APP_WORK_URL` | `https://gyomu-work.vercel.app` | 作業入力アプリURL（リバースプロキシ用） |
 | `INTERNAL_APP_INSPECTION_URL` | `https://gyomu-inspection.vercel.app` | 点検アプリURL |
-| `INTERNAL_APP_DASHBOARD_URL` | `https://gyomu-dashboard.vercel.app` | ダッシュボードURL |
+| `INTERNAL_APP_DASHBOARD_URL` | `https://gyomu-dashboard-two.vercel.app` | ダッシュボードURL（プロジェクト名が変わった場合は要確認） |
 | `INTERNAL_APP_CASE_URL` | `https://gyomu-case.vercel.app` | 事例管理アプリURL |
+| `NEXT_PUBLIC_APP_WORK_URL` | `https://gyomu-work.vercel.app` | ポータルのアプリカード直リンク用 |
+| `NEXT_PUBLIC_APP_INSPECTION_URL` | `https://gyomu-inspection.vercel.app` | 同上 |
+| `NEXT_PUBLIC_APP_DASHBOARD_URL` | `https://gyomu-dashboard-two.vercel.app` | 同上 |
+| `NEXT_PUBLIC_APP_CASE_URL` | `https://gyomu-case.vercel.app` | 同上 |
 
 > **重要**: `INTERNAL_APP_*_URL` にはドメインだけを入れる（末尾に `/apps/work` などは不要）。  
 > ポータルのリバースプロキシが自動で `/apps/work/:path*` を付け足します。
