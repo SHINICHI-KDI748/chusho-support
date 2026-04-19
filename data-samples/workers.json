@@ -1,0 +1,35 @@
+{
+  "_comment": "担当者共通マスタ。アプリ1・アプリ2・ダッシュボードで共通参照するファイル。aliases に表記ゆれを登録すると自動的に正規名に統一される。",
+  "workers": [
+    {
+      "id": 1,
+      "name": "田中",
+      "active": true,
+      "aliases": ["田中さん", "TANAKA", "tanaka"]
+    },
+    {
+      "id": 2,
+      "name": "鈴木",
+      "active": true,
+      "aliases": ["鈴木さん", "SUZUKI", "suzuki"]
+    },
+    {
+      "id": 3,
+      "name": "佐藤",
+      "active": true,
+      "aliases": ["佐藤さん", "SATO", "sato"]
+    },
+    {
+      "id": 4,
+      "name": "山田",
+      "active": true,
+      "aliases": ["山田さん", "YAMADA", "yamada"]
+    },
+    {
+      "id": 5,
+      "name": "伊藤",
+      "active": true,
+      "aliases": ["伊藤さん", "ITO", "ito"]
+    }
+  ]
+}

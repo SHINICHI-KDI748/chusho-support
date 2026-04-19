@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap');
+
+:root {
+  --ink: #0f0f0f;
+  --ash: #1c1c1c;
+  --slate: #3a3a3a;
+  --silver: #8a8a8a;
+  --mist: #c4c2be;
+  --rule: #dddbd8;
+  --paper: #f5f4f2;
+  --white: #fafafa;
+  --navy: #1a2332;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.85;
+  font-size: 15px;
+}
+
+/* Global resets for this project */
+#root { min-height: 100vh; }
+
+/* Button styles */
+.btn-black {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding: 15px 42px;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.22s ease, color 0.22s ease;
+  font-family: inherit;
+  line-height: 1;
+}
+.btn-black:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-outline {
+  display: inline-block;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding: 14px 42px;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.22s ease, color 0.22s ease;
+  font-family: inherit;
+  line-height: 1;
+}
+.btn-outline:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Eyebrow label */
+.eyebrow {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--silver);
+}
+
+/* Section heading */
+.section-heading {
+  font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* Latin accent */
+.latin {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Hairline rule */
+.hairline { border-top: 0.5px solid var(--rule); }
+.hairline-v { border-left: 0.5px solid var(--rule); }
+
+/* Section num */
+.num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--mist);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--white); }
+::-webkit-scrollbar-thumb { background: var(--mist); }

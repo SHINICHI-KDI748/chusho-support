@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "date": "2026-04-07",
+    "process_name": "検査工程",
+    "worker_name": "田中",
+    "target_name": "部品A",
+    "quantity": 50,
+    "note": "",
+    "created_at": "2026/4/7 21:29:04"
+  },
+  {
+    "id": 2,
+    "date": "2026-04-18",
+    "process_name": "検査工程",
+    "worker_name": "田中",
+    "target_name": "っっっっk",
+    "quantity": 17,
+    "note": "",
+    "created_at": "2026/4/19 0:39:58"
+  }
+]

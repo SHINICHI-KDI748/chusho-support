@@ -1,0 +1,56 @@
+{
+  "processes": [
+    {
+      "id": 1,
+      "name": "組立ライン",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "検査工程",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "梱包工程",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "加工工程",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "出荷工程",
+      "active": true
+    }
+  ],
+  "workers": [
+    {
+      "id": 1,
+      "name": "田中",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "鈴木",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "佐藤",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "山田",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "伊藤",
+      "active": true
+    }
+  ]
+}

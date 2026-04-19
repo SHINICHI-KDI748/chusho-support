@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勤怠管理システム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- サイドバー -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">⏱</div>
+        <div>
+          <div class="logo-title">勤怠管理</div>
+          <div class="logo-sub">デモシステム</div>
+        </div>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item active" data-view="input">
+          <span class="nav-icon">✏️</span>
+          <span class="nav-label">勤怠入力</span>
+        </li>
+        <li class="nav-item" data-view="daily">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">日次一覧</span>
+        </li>
+        <li class="nav-item" data-view="monthly">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">月次集計</span>
+        </li>
+        <li class="nav-item" data-view="anomaly">
+          <span class="nav-icon">⚠️</span>
+          <span class="nav-label">異常値一覧</span>
+          <span class="nav-badge" id="anomaly-count"></span>
+        </li>
+        <li class="nav-item" data-view="csv">
+          <span class="nav-icon">📁</span>
+          <span class="nav-label">CSV管理</span>
+        </li>
+      </ul>
+      <div class="sidebar-footer">営業デモ版 v1.0</div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+      <div id="content"></div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

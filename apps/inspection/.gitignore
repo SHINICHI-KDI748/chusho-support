@@ -1,0 +1,6 @@
+node_modules/
+.next/
+public/uploads/
+masters.json
+inspection-records.json
+*.log

@@ -1,0 +1,7 @@
+{
+  "buildCommand": "bash scripts/prepare-vercel.sh",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "regions": ["nrt1"]
+}

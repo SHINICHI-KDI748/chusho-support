@@ -1,0 +1,18 @@
+{
+  "name": "small-company-support",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail --names \"ポータル,作業入力,点検入力,ダッシュボード,事例生成\" --prefix-colors \"white.bold,blue,cyan,green,yellow\" \"npm run dev --prefix apps/portal\" \"npm run dev --prefix apps/excel-reduction\" \"npm run dev --prefix apps/inspection\" \"npm run dev --prefix apps/dashboard\" \"npm run dev --prefix apps/poc-case-generator\"",
+    "dev:portal": "npm run dev --prefix apps/portal",
+    "dev:work": "npm run dev --prefix apps/excel-reduction",
+    "dev:inspection": "npm run dev --prefix apps/inspection",
+    "dev:dashboard": "npm run dev --prefix apps/dashboard",
+    "dev:case": "npm run dev --prefix apps/poc-case-generator",
+    "install:all": "npm install --prefix apps/portal && npm install --prefix apps/excel-reduction && npm install --prefix apps/inspection && npm install --prefix apps/dashboard && npm install --prefix apps/poc-case-generator",
+    "db:setup": "npm run db:generate --prefix apps/portal && npm run db:push --prefix apps/portal && npm run db:seed --prefix apps/portal"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

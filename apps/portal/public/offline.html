@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>オフライン | 業務アプリ</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+      background: #1e40af;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 16px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 40px 32px;
+      max-width: 360px;
+      width: 100%;
+    }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 22px; margin: 0 0 12px; }
+    p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.6; margin: 0 0 24px; }
+    button {
+      background: white;
+      color: #1e40af;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📡</div>
+    <h1>オフラインです</h1>
+    <p>インターネットに接続されていません。<br>Wi-Fiまたはモバイルデータをご確認ください。</p>
+    <button onclick="location.reload()">再接続して再試行</button>
+  </div>
+</body>
+</html>

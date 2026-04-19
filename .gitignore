@@ -1,0 +1,47 @@
+# 依存関係
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js ビルド成果物
+.next/
+out/
+build/
+dist/
+
+# データベース
+*.db
+*.db-shm
+*.db-wal
+*.db.bak
+
+# 環境変数（機密情報）
+.env
+.env.local
+.env.*.local
+
+# ログ
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# エディタ
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# デバッグ
+.pids
+
+# ngrok
+/tmp/ngrok.log
+
+# Vercel
+.vercel

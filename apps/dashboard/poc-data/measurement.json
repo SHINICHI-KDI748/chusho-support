@@ -1,0 +1,19 @@
+{
+  "before": {
+    "work_record_time_min": null,
+    "inspection_check_time_min": null,
+    "missing_detection_time_min": null,
+    "ng_check_steps": null,
+    "daily_files_used": null,
+    "memo": ""
+  },
+  "after": {
+    "dashboard_check_time_min": null,
+    "pending_detection_sec": null,
+    "ng_awareness_sec": null,
+    "admin_satisfaction": null,
+    "continued_use_intent": null,
+    "memo": ""
+  },
+  "updated_at": ""
+}
