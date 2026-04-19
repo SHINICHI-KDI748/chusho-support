@@ -27,11 +27,11 @@ export async function GET(req: NextRequest) {
   const dateTo   = searchParams.get('dateTo')   ?? today
 
   // 期間内データ取得
-  const workRecords = queryWorkRecords({ dateFrom, dateTo })
-  const inspRecords = queryInspectionRecords({ dateFrom, dateTo })
-
-  // 未実施点検（今日基準）
-  const statuses    = getInspectionStatus(today)
+  const [workRecords, inspRecords, statuses] = await Promise.all([
+    queryWorkRecords({ dateFrom, dateTo }),
+    queryInspectionRecords({ dateFrom, dateTo }),
+    getInspectionStatus(today),
+  ])
   const pendingCount = statuses.filter(s => s.status === 'pending').length
 
   const summary = buildSummary(workRecords, inspRecords, pendingCount)

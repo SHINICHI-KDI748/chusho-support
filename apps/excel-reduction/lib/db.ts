@@ -8,7 +8,9 @@
 import fs from 'fs'
 import path from 'path'
 
-const DB_PATH = path.join(process.cwd(), 'records.json')
+const DB_PATH = process.env.VERCEL
+  ? '/tmp/records.json'
+  : path.join(process.cwd(), 'records.json')
 
 export interface Record {
   id: number

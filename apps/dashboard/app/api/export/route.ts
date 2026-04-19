@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
   // ---------- 作業実績 ----------
   if (type === 'work') {
-    const records = queryWorkRecords({ dateFrom, dateTo })
+    const records = await queryWorkRecords({ dateFrom, dateTo })
     const header = ['ID', '日付', '工程名', '担当者名', '品目/作業対象', '数量', '備考', '要確認', '登録日時']
     const rows = records.map(r => [
       r.id, r.date, r.process_name, r.worker_name,
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
 
   // ---------- 点検記録 ----------
   else if (type === 'inspection') {
-    const records = queryInspectionRecords({ dateFrom, dateTo })
+    const records = await queryInspectionRecords({ dateFrom, dateTo })
 
     // 動的な項目ラベル列（全レコードから収集）
     const allLabels = Array.from(
@@ -92,7 +92,7 @@ export async function GET(req: NextRequest) {
 
   // ---------- 未実施一覧 ----------
   else if (type === 'pending') {
-    const statuses = getInspectionStatus(today)
+    const statuses = await getInspectionStatus(today)
     const pending  = statuses.filter(s => s.status === 'pending')
 
     const FREQ_LABELS: Record<string, string> = {

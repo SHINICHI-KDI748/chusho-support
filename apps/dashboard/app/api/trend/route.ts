@@ -39,8 +39,9 @@ export async function GET(req: NextRequest) {
   const today    = todayJST()
   const dateFrom = addDays(today, -(days - 1))
 
-  const workRecords = readAllWorkRecords().filter(r => r.date >= dateFrom && r.date <= today)
-  const inspRecords = readAllInspectionRecords().filter(r => r.date >= dateFrom && r.date <= today)
+  const [allWork, allInsp] = await Promise.all([readAllWorkRecords(), readAllInspectionRecords()])
+  const workRecords = allWork.filter(r => r.date >= dateFrom && r.date <= today)
+  const inspRecords = allInsp.filter(r => r.date >= dateFrom && r.date <= today)
 
   // 日付ごとに集計
   const map = new Map<string, DayTrend>()

@@ -7,7 +7,9 @@
 import fs from 'fs'
 import path from 'path'
 
-const MASTERS_PATH = path.join(process.cwd(), 'masters.json')
+const MASTERS_PATH = process.env.VERCEL
+  ? '/tmp/masters.json'
+  : path.join(process.cwd(), 'masters.json')
 
 // ---------- 型定義 ----------
 

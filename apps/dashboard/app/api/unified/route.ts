@@ -29,13 +29,13 @@ export async function GET(req: NextRequest) {
   let events = []
 
   if (type === 'all' || type === 'work') {
-    const workRecords = queryWorkRecords({ dateFrom, dateTo })
+    const workRecords = await queryWorkRecords({ dateFrom, dateTo })
     const workEvents = workRecords.map(workRecordToEvent)
     events.push(...workEvents)
   }
 
   if (type === 'all' || type === 'inspection') {
-    const inspRecords = queryInspectionRecords({ dateFrom, dateTo })
+    const inspRecords = await queryInspectionRecords({ dateFrom, dateTo })
     const inspEvents = inspRecords.map(inspectionRecordToEvent)
     events.push(...inspEvents)
   }

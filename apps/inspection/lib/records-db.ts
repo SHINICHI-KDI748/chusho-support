@@ -8,7 +8,9 @@ import fs from 'fs'
 import path from 'path'
 import type { Frequency, InspectionTarget } from './masters-db'
 
-const RECORDS_PATH = path.join(process.cwd(), 'inspection-records.json')
+const RECORDS_PATH = process.env.VERCEL
+  ? '/tmp/inspection-records.json'
+  : path.join(process.cwd(), 'inspection-records.json')
 
 // ---------- 型定義 ----------
 

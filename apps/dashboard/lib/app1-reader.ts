@@ -1,21 +1,19 @@
-/**
- * app1-reader.ts
- * excel-reduction-poc の JSON データを読み取る。
- * ダッシュボード側から ../excel-reduction-poc/records.json を直接参照する。
- * 既存アプリへの変更なし・書き込みなし。
- */
-
 import fs from 'fs'
 import path from 'path'
 
-// excel-reduction-poc プロジェクトのルート
-const APP1_DIR = path.resolve(process.cwd(), '..', 'excel-reduction-poc')
+// ローカル開発時のファイルパス（excel-reduction → excel-reduction-poc の両方を試みる）
+const LOCAL_DIRS = [
+  path.resolve(process.cwd(), '..', 'excel-reduction'),
+  path.resolve(process.cwd(), '..', 'excel-reduction-poc'),
+]
 
-// ---------- 型定義（app1 の lib/db.ts と同形）----------
+function findLocalDir(): string | null {
+  return LOCAL_DIRS.find(d => fs.existsSync(d)) ?? null
+}
 
 export interface WorkRecord {
   id: number
-  date: string           // YYYY-MM-DD
+  date: string
   process_name: string
   worker_name: string
   target_name: string
@@ -24,17 +22,45 @@ export interface WorkRecord {
   created_at: string
 }
 
-// ---------- 読み取り関数 ----------
+// ---- 内部: データ取得（Vercel: API / ローカル: ファイル）----
 
-export function readAllWorkRecords(): WorkRecord[] {
-  const p = path.join(APP1_DIR, 'records.json')
-  if (!fs.existsSync(p)) return []
-  try {
-    return JSON.parse(fs.readFileSync(p, 'utf-8')) as WorkRecord[]
-  } catch {
-    return []
+async function fetchAllWorkRecords(): Promise<WorkRecord[]> {
+  if (process.env.VERCEL) {
+    const base = process.env.APP_WORK_URL ?? ''
+    if (!base) return []
+    try {
+      const res = await fetch(`${base}/apps/work/api/records`, { next: { revalidate: 30 } })
+      if (!res.ok) return []
+      return res.json()
+    } catch { return [] }
   }
+  const dir = findLocalDir()
+  if (!dir) return []
+  const p = path.join(dir, 'records.json')
+  if (!fs.existsSync(p)) return []
+  try { return JSON.parse(fs.readFileSync(p, 'utf-8')) as WorkRecord[] }
+  catch { return [] }
 }
+
+async function fetchMasters(): Promise<{ workers: { id: number; name: string; active: boolean }[] }> {
+  if (process.env.VERCEL) {
+    const base = process.env.APP_WORK_URL ?? ''
+    if (!base) return { workers: [] }
+    try {
+      const res = await fetch(`${base}/apps/work/api/masters`, { next: { revalidate: 60 } })
+      if (!res.ok) return { workers: [] }
+      return res.json()
+    } catch { return { workers: [] } }
+  }
+  const dir = findLocalDir()
+  if (!dir) return { workers: [] }
+  const p = path.join(dir, 'masters.json')
+  if (!fs.existsSync(p)) return { workers: [] }
+  try { return JSON.parse(fs.readFileSync(p, 'utf-8')) }
+  catch { return { workers: [] } }
+}
+
+// ---- 公開 API ----
 
 export interface WorkQueryOptions {
   dateFrom?: string
@@ -42,8 +68,12 @@ export interface WorkQueryOptions {
   keyword?: string
 }
 
-export function queryWorkRecords(opts: WorkQueryOptions = {}): WorkRecord[] {
-  let records = readAllWorkRecords()
+export async function readAllWorkRecords(): Promise<WorkRecord[]> {
+  return fetchAllWorkRecords()
+}
+
+export async function queryWorkRecords(opts: WorkQueryOptions = {}): Promise<WorkRecord[]> {
+  let records = await fetchAllWorkRecords()
   if (opts.dateFrom) records = records.filter(r => r.date >= opts.dateFrom!)
   if (opts.dateTo)   records = records.filter(r => r.date <= opts.dateTo!)
   if (opts.keyword) {
@@ -58,16 +88,7 @@ export function queryWorkRecords(opts: WorkQueryOptions = {}): WorkRecord[] {
   return records.sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id)
 }
 
-/** App1 の担当者マスタ（アクティブのみ）を取得 */
-export function getApp1Workers(): string[] {
-  const p = path.join(APP1_DIR, 'masters.json')
-  if (!fs.existsSync(p)) return []
-  try {
-    const m = JSON.parse(fs.readFileSync(p, 'utf-8')) as {
-      workers: { id: number; name: string; active: boolean }[]
-    }
-    return m.workers.filter(w => w.active).map(w => w.name)
-  } catch {
-    return []
-  }
+export async function getApp1Workers(): Promise<string[]> {
+  const m = await fetchMasters()
+  return m.workers.filter(w => w.active).map(w => w.name)
 }

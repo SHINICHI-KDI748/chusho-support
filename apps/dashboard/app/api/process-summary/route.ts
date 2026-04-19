@@ -42,8 +42,10 @@ export async function GET(req: NextRequest) {
   const dateFrom = sp.get('dateFrom') ?? today
   const dateTo   = sp.get('dateTo')   ?? today
 
-  const workRecords = queryWorkRecords({ dateFrom, dateTo })
-  const inspRecords = queryInspectionRecords({ dateFrom, dateTo })
+  const [workRecords, inspRecords] = await Promise.all([
+    queryWorkRecords({ dateFrom, dateTo }),
+    queryInspectionRecords({ dateFrom, dateTo }),
+  ])
 
   // 工程別集計
   const processMap = new Map<string, ProcessSummary>()
