@@ -10,6 +10,13 @@ export interface AppDef {
   allowedRoles: Role[]
 }
 
+// Vercel本番: NEXT_PUBLIC_APP_*_URL にサブアプリのドメインを設定すると直接リンクになる
+// ローカル/ngrok: 未設定の場合はポータル経由のプロキシパスを使う
+function appHref(envVar: string | undefined, proxyPath: string): string {
+  if (envVar) return `${envVar}${proxyPath}`
+  return proxyPath
+}
+
 export const APPS: AppDef[] = [
   {
     id: 'work-log',
@@ -17,7 +24,7 @@ export const APPS: AppDef[] = [
     description: '日報・作業実績を記録します。現場担当が入力し、管理者が確認します。',
     icon: '📝',
     color: 'blue',
-    href: '/apps/work',
+    href: appHref(process.env.NEXT_PUBLIC_APP_WORK_URL, '/apps/work'),
     allowedRoles: ['admin', 'office', 'field'],
   },
   {
@@ -26,7 +33,7 @@ export const APPS: AppDef[] = [
     description: '設備・車両の点検結果を記録します。OK/NG/NAで素早く入力できます。',
     icon: '🔍',
     color: 'green',
-    href: '/apps/inspection',
+    href: appHref(process.env.NEXT_PUBLIC_APP_INSPECTION_URL, '/apps/inspection'),
     allowedRoles: ['admin', 'office', 'field'],
   },
   {
@@ -35,7 +42,7 @@ export const APPS: AppDef[] = [
     description: '作業実績・点検結果をグラフで確認します。管理者・事務向けです。',
     icon: '📊',
     color: 'purple',
-    href: '/apps/dashboard',
+    href: appHref(process.env.NEXT_PUBLIC_APP_DASHBOARD_URL, '/apps/dashboard'),
     allowedRoles: ['admin', 'office', 'viewer'],
   },
   {
@@ -44,7 +51,7 @@ export const APPS: AppDef[] = [
     description: '業務改善の提案・事例レポートをAIで生成します。',
     icon: '🤖',
     color: 'orange',
-    href: '/apps/case',
+    href: appHref(process.env.NEXT_PUBLIC_APP_CASE_URL, '/apps/case'),
     allowedRoles: ['admin', 'office'],
   },
 ]
